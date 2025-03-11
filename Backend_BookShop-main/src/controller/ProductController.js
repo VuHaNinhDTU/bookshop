@@ -2,6 +2,7 @@ const ProductService = require("../services/ProductService");
 
 const createProduct = async (req, res) => {
     try {
+        console.log("Received data:", req.body);
         const { name, price, description, image, type, author, countInStock } = req.body;
 
         // Validate required fields

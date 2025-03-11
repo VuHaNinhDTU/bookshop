@@ -76,7 +76,13 @@ const updateProduct = async (id, updateData) => {
                 });
             }
 
-            const updatedProduct = await Product.findByIdAndUpdate(id, updateData, { new: true })
+            // 👉 Nếu có countInStock, thì cộng thêm vào thay vì ghi đè
+            if (updateData.countInStock !== undefined) {
+                updateData.countInStock = checkProduct.countInStock + updateData.countInStock;
+            }
+
+            const updatedProduct = await Product.findByIdAndUpdate(id, updateData, { new: true });
+
             resolve({
                 status: "OK",
                 message: "Product updated successfully!",
@@ -92,6 +98,7 @@ const updateProduct = async (id, updateData) => {
         }
     });
 };
+
 
 const deleteProduct = (id) => {
     return new Promise(async (resolve, reject) => {
